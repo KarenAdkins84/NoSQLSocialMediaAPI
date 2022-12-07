@@ -17,8 +17,13 @@ const thoughtSchema = new Schema(
         username: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'
+                ref: 'User'//?capital
             },
         ],
+        reactions//array of nested documents?like replies
     },
-)
+);
+
+const Thought = model('thought', thoughtSchema);
+
+module.exports = Thought;

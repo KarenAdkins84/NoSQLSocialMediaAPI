@@ -1,6 +1,6 @@
 {
     "name": "NoSQLSocialMediaAPI",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "description": "NoSQL-API",
     "main": "index.js",
     "license": "MIT",
