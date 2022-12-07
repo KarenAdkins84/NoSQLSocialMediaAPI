@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const reactionSchema = require('./Reaction');
 //schema to create Thought model
 const thoughtSchema = new Schema(
@@ -17,7 +17,7 @@ const thoughtSchema = new Schema(
         username: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'//?capital
+                ref: 'User'
             },
         ],
         reactions: [reactionSchema],//array of nested documents?like replies
