@@ -18,12 +18,13 @@ const userSchema = new Schema(
             match: true,
             max_length: 50,
         },
-        thoughts: [thoughtSchema],
-        friends: [friendSchema],//needs to reference?**!!**!!
+        thoughts: [],
+        friends: [this],//needs to reference?**!!**!!
     },
     {
         toJSON: {
             virtuals: true,//include virtuals
+            getters: true,
         },
         id: false,
     }
@@ -33,7 +34,7 @@ userSchema
 .virtual('friendCount')
 //getter
 .get(function () {
-    return `${this.friend.length}`;
+    return this.friends.length;
 })
 const User = model('user', userSchema);
 
