@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-
+const { Schema, model, default: mongoose } = require('mongoose');
+const { isEmail } = require('validator');
 //Schema to create User model
 const userSchema = new Schema(
     {
@@ -8,14 +8,15 @@ const userSchema = new Schema(
             required: true,
             unique: true,
             trim: true,
-            max_length: 50,
+            max_length: 50
         },
         email: {
             type: String,
             required: true,
             unique: true,
-            match: true,
-            max_length: 50,
+            validate: {
+                validator: isEmail , message: 'Invalid email.'
+            }
         },
         thoughts: [{
             type: Schema.Types.ObjectId,
@@ -41,5 +42,5 @@ userSchema.virtual('friendCount')
     return this.friends.length;
 })
 const User = model('user', userSchema);
-
+mongoose.model('User', userSchema);
 module.exports = User;

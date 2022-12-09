@@ -1,5 +1,6 @@
 const { User, Thought } = require('../models');//check crud operations wrap around to update/delete
 const { ObjectId } = require('mongoose').Types;
+//const mongoose = require('mongoose');
 
 module.exports = {
     //get all users
@@ -21,25 +22,27 @@ module.exports = {
             });
     },
     //add new user
-    addUser({ body }, res) {
-        User.create(body)
+    addUser(req, res) {
+        User.create(req.body)
         .then(userData => res.json(userData))
         .catch(err => res.status(400).json(err));
     },
     //get one user by Id
     getSingleUser(req, res) {//use mini-project and this format
         User.findOne({ _id: req.params.userId })
-        .populate({
-            path: 'thoughts',
-            select: ('-__v')
-        })
+        // .populate({
+        //     path: 'thoughts',
+        //     select: ('-__v')
+        // })
         .select('-__v')
         .then(userData => res.json(userData))
         .catch(err => res.status(400).json(err));
     },
     //update user
     updateUser(req, res) {
-        User.findOneAndUpdate({ _id: req.params.id }, body, { new: true, timestamps: true })
+        User.findOneAndUpdate(
+            { _id: ObjectId(req.params.id) },
+            { new: true, timestamps: true })
             .then(userData => {
                 if(!userData) {
                     res.status(404).json({ message: 'No user found with this ID!' });
@@ -52,7 +55,8 @@ module.exports = {
         },
         //delete a user by Id
         deleteUser(req, res) {
-            User.findOneAndDelete({ _id: req.params.id })
+            User.findOneAndDelete(
+            { _id: ObjectId(req.params.id) })
             .then(userData => {
                 if(!userData) {
                     res.status(404).json({ message: 'No user found with this ID!' });
@@ -98,7 +102,7 @@ module.exports = {
         },
         addFriend(req, res) {
             User.findOneAndUpdate(
-                { _id: req.params.id },
+                { _id: ObjectId(req.params.id) },
                 { $push: {friends: params.friendId } },
                 { new: true, timestamps: true }
             )
@@ -115,7 +119,7 @@ module.exports = {
             });
         },
         deleteFriend(req, res) {
-            User.findOneAndDelete({_id: ObjectId(params.friendId)})
+            User.findOneAndDelete( {_id: ObjectId(req.params.friendId)} )
             .then(userData => {
                 if(!userData) {
                     res.status(404).json({ message: 'No friend found with this ID!' });
