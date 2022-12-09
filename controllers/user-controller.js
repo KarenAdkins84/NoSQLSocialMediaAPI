@@ -1,6 +1,6 @@
 const { User, Thought } = require('../models');
 
-const userController = {
+module.exports = {
     //get all users
     getUsers(req, res) {
         User.find({})
@@ -27,7 +27,7 @@ const userController = {
     },
     //get one user by Id
     getSingleUser({ params }, res) {
-        User.findOne({ _id: params.id })
+        User.findOne({ _id: ObjectId(params.id) })
         .populate({
             path: 'thoughts',
             select: ('-__v')
@@ -38,7 +38,7 @@ const userController = {
     },
     //update user
     updateUser({ params, body }, res) {
-        User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true, timestamps: true })
+        User.findOneAndUpdate({ _id: ObjectId(params.id) }, body, { new: true, runValidators: true, timestamps: true })
             .then(userData => {
                 if(!userData) {
                     res.status(404).json({ message: 'No user found with this ID!' });
@@ -51,7 +51,7 @@ const userController = {
         },
         //delete a user by Id
         deleteUser({ params }, res) {
-            User.findOneAndDelete({_id: params.id})
+            User.findOneAndDelete({_id: ObjectId(params.id)})
             .then(userData => {
                 if(!userData) {
                     res.status(404).json({ message: 'No user found with this ID!' });
@@ -97,7 +97,7 @@ const userController = {
         },
         addFriend({ params }, res) {
             User.findOneAndUpdate(
-                { _id: params.id },
+                { _id: ObjectId(params.id) },
                 { $push: {friends: params.friendId } },
                 { new: true, timestamps: true }
             )
@@ -114,10 +114,10 @@ const userController = {
             });
         },
         deleteFriend({ params }, res) {
-            User.findOneAndDelete({_id: params.id})
+            User.findOneAndDelete({_id: ObjectId(params.friendId)})
             .then(userData => {
                 if(!userData) {
-                    res.status(404).json({ message: 'No user found with this ID!' });
+                    res.status(404).json({ message: 'No friend found with this ID!' });
                     return;
                 }
     
@@ -125,6 +125,4 @@ const userController = {
             })
             .catch(err => res.status(400).json(err));
         }
-};
-
-module.exports = userController;
+}
