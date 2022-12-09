@@ -15,5 +15,5 @@ Javascript, Node.js, Express.js, Mogoose ODM, and MongoDB Atlas
 [Link to Github Repo](https://github.com/KarenAdkins84/NoSQLSocialMediaAPI)
 
 ### Screencastify Demo
-[Link to Video]()
+[Link to Video](https://drive.google.com/file/d/1U-QyRhSklaskLFLXSUQ_SRmfsyrzGWxP/view)
 
