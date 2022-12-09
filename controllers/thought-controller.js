@@ -38,7 +38,7 @@ module.exports = {
             .catch(err => res.json(err));
     },
     updateThought({ params, body }, res) {
-        Thought.findByIdAndUpdate({ _id: params.thoughtId }, body, {runValidators: true, new: true, timestamps: true})
+        Thought.findByIdAndUpdate({ _id: params.thoughtId }, body, { new: true, timestamps: true})
             .then(thoughtData => {
                 if(!thoughtData) {
                     res.status(404).json({ message: 'No thought found with that Id!'});
@@ -51,7 +51,7 @@ module.exports = {
     deleteThought({ params }, res) {
         Thought.findByIdAndDelete(
             { _id: params.thoughtId }, 
-            { runValidators: true, new: true, timestamps: true})
+            { new: true, timestamps: true })
             .then(thoughtData => {
                 if(!thoughtData) {
                     res.status(404).json({ message: 'No thought found with that Id!'});
@@ -65,7 +65,7 @@ module.exports = {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $push: {reactions: body} },
-            { new: true, runValidators: true, timestamps: true })
+            { new: true, timestamps: true })
             .then(thoughtData => {
             if (!thoughtData) {
                 res.status(404).json({ message: 'Incorrect reaction data!' });
@@ -79,7 +79,7 @@ module.exports = {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $pull: {reactions: {reactionId : params.reactionId}}},
-            { new: true, runValidators: true, timestamps:true }
+            { new: true, timestamps: true }
         )
         .then(thoughtData => {
             if (!thoughtData) {
