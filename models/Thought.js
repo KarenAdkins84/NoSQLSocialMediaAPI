@@ -14,12 +14,11 @@ const thoughtSchema = new Schema(
             default: Date.now,
             //use getter method to format the timestamp on query
         },
-        username: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
-        ],
+        username: {
+        
+                type: String,
+        },
+                
         reactions: [reactionSchema],//array of nested documents?like replies
     },
     {

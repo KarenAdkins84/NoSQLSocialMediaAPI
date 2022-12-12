@@ -29,19 +29,20 @@ module.exports = {
     },
     //get one user by Id
     getSingleUser(req, res) {//use mini-project and this format
-        User.findOne({ _id: req.params.userId })
+        User.findOne({ _id: req.params.id })
         // .populate({
         //     path: 'thoughts',
         //     select: ('-__v')
         // })
-        .select('-__v')
+        // .select('-__v')
         .then(userData => res.json(userData))
         .catch(err => res.status(400).json(err));
     },
     //update user
     updateUser(req, res) {
         User.findOneAndUpdate(
-            { _id: ObjectId(req.params.id) },
+            { _id: req.params.id },
+            { $set: req.body },
             { new: true, timestamps: true })
             .then(userData => {
                 if(!userData) {
@@ -103,7 +104,7 @@ module.exports = {
         addFriend(req, res) {
             User.findOneAndUpdate(
                 { _id: ObjectId(req.params.id) },
-                { $push: {friends: params.friendId } },
+                { $push: {friends: req.params.friendId } },
                 { new: true, timestamps: true }
             )
             .then(userData => {
